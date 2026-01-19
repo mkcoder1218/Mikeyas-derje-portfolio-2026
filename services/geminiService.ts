@@ -2,8 +2,19 @@
 import { GoogleGenAI } from "@google/genai";
 import { PROJECTS, SKILLS, WORK_EXPERIENCE, PERSONAL_INFO } from "../constants";
 
+
 // Initialize the Gemini API client using the API key directly from the environment.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+let ai: GoogleGenAI | null = null;
+try {
+  const apiKey = (import.meta as any).env.VITE_API_KEY;
+  if (apiKey) {
+    ai = new GoogleGenAI({ apiKey });
+  } else {
+    console.warn("Gemini API Key is missing");
+  }
+} catch (error) {
+  console.error("Failed to initialize Gemini Client:", error);
+}
 
 const SYSTEM_INSTRUCTION = `
 You are the AI Assistant for Mikeyas Derje's professional developer portfolio. 
@@ -24,9 +35,13 @@ If asked about something not in this context, politely mention that you can only
 `;
 
 export async function getChatResponse(message: string, history: { role: string; parts: { text: string }[] }[]) {
+  if (!ai) {
+    return "I am currently offline (API Key missing). Please contact Mikeyas directly.";
+  }
+
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-2.0-flash',
       contents: [
         ...history.map(h => ({ role: h.role === 'assistant' ? 'model' : 'user', parts: [{ text: h.parts[0].text }] })),
         { role: 'user', parts: [{ text: message }] }
@@ -39,8 +54,11 @@ export async function getChatResponse(message: string, history: { role: string; 
     });
 
     return response.text || "I'm sorry, I couldn't process that request.";
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini API Error:", error);
+    if (error?.status === 403 || error?.message?.includes('403') || error?.message?.includes('leaked')) {
+      return "Error: My API key has been flagged. Please update the VITE_API_KEY in the .env file with a valid Gemini API key.";
+    }
     return "Error: I'm having trouble connecting to my brain right now. Please try again later!";
   }
 }

@@ -71,9 +71,9 @@ const Navbar: React.FC<{ onAdminOpen: () => void, email: string }> = ({ onAdminO
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -2, color: '#fff' }}
+              whileHover={{ y: -2, color: '#fff', textShadow: "0 0 8px rgba(255,255,255,0.5)" }}
               onClick={() => scrollTo(item.toLowerCase())}
-              className="text-sm font-medium text-zinc-400 transition-colors relative z-10"
+              className="text-sm font-medium text-zinc-400 transition-colors relative z-10 cursor-pointer"
             >
               {item}
             </motion.button>
@@ -81,7 +81,7 @@ const Navbar: React.FC<{ onAdminOpen: () => void, email: string }> = ({ onAdminO
           <motion.button 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            whileHover={{ scale: 1.05, backgroundColor: '#fff' }}
+            whileHover={{ scale: 1.05, backgroundColor: '#fff', boxShadow: "0 0 15px rgba(255,255,255,0.4)" }}
             whileTap={{ scale: 0.95 }}
             onClick={() => scrollTo('contact')}
             className="px-5 py-2.5 bg-zinc-100 text-zinc-950 text-sm font-bold rounded-full transition-all relative z-[70] cursor-pointer"
@@ -168,12 +168,12 @@ const ProjectCard: React.FC<{ project: any }> = ({ project }) => {
         </div>
         <h4 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 tracking-tight text-balance group-hover:text-blue-400 transition-colors">{project.title}</h4>
         <p className="text-zinc-400 text-sm mb-8 md:mb-10 flex-1 leading-relaxed">{project.description}</p>
-        <motion.button 
+        {/* <motion.button 
           whileHover={{ x: 5 }}
           className="text-[10px] md:text-xs font-bold text-blue-500 flex items-center gap-2 group/btn uppercase tracking-widest"
         >
           Case Study <i className="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-1 transition-transform"></i>
-        </motion.button>
+        </motion.button> */}
       </div>
     </motion.div>
   );
@@ -261,10 +261,10 @@ const ContactForm: React.FC<{ telegramToken?: string, telegramId?: string }> = (
           />
         </div>
         <motion.button 
-          whileHover={{ scale: 1.02 }}
+          whileHover={{ scale: 1.02, boxShadow: "0 0 20px rgba(16, 185, 129, 0.4)" }}
           whileTap={{ scale: 0.98 }}
           disabled={status === 'loading'}
-          className={`w-full py-4 md:py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] md:text-xs transition-all ${
+          className={`w-full py-4 md:py-5 rounded-2xl font-bold uppercase tracking-widest text-[10px] md:text-xs transition-all cursor-pointer ${
             status === 'success' ? 'bg-emerald-500 text-white' : 
             status === 'error' ? 'bg-red-500 text-white' : 
             'bg-white text-black'

@@ -47,32 +47,46 @@ const Admin: React.FC<AdminProps> = ({ onClose }) => {
 
   if (!isAuthenticated) {
     return (
-      <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-6 backdrop-blur-md">
-        <div className="w-full max-w-md border border-zinc-800 p-12 bg-zinc-950 shadow-2xl rounded-2xl">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-6 backdrop-blur-md"
+      >
+        <motion.div 
+          initial={{ scale: 0.9, y: 20 }}
+          animate={{ scale: 1, y: 0 }}
+          className="w-full max-w-md border border-zinc-800 p-12 bg-zinc-950 shadow-2xl rounded-2xl"
+        >
           <h2 className="text-2xl font-black uppercase text-center mb-10">Access Control</h2>
           <form onSubmit={handleLogin} className="space-y-6">
-            <input type="text" placeholder="IDENTIFIER" className="w-full bg-black border border-zinc-800 p-4 text-xs font-bold rounded" value={username} onChange={e => setUsername(e.target.value)} />
-            <input type="password" placeholder="ACCESS_KEY" className="w-full bg-black border border-zinc-800 p-4 text-xs font-bold rounded" value={password} onChange={e => setPassword(e.target.value)} />
-            <button className="w-full py-4 bg-white text-black font-black uppercase text-xs rounded">Initialize</button>
-            <button type="button" onClick={onClose} className="w-full py-4 text-zinc-600 uppercase text-[10px]">Cancel</button>
+            <input type="text" placeholder="IDENTIFIER" className="w-full bg-black border border-zinc-800 p-4 text-xs font-bold rounded outline-none focus:border-white transition-colors" value={username} onChange={e => setUsername(e.target.value)} />
+            <input type="password" placeholder="ACCESS_KEY" className="w-full bg-black border border-zinc-800 p-4 text-xs font-bold rounded outline-none focus:border-white transition-colors" value={password} onChange={e => setPassword(e.target.value)} />
+            <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full py-4 bg-white text-black font-black uppercase text-xs rounded cursor-pointer">Initialize</motion.button>
+            <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} type="button" onClick={onClose} className="w-full py-4 text-zinc-600 uppercase text-[10px] cursor-pointer hover:text-white transition-colors">Cancel</motion.button>
           </form>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     );
   }
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black flex flex-col overflow-hidden">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] bg-black flex flex-col overflow-hidden"
+    >
       <div className="h-20 border-b border-zinc-900 px-8 flex items-center justify-between bg-zinc-950">
         <div className="flex gap-8 items-center">
           <h2 className="text-sm font-black uppercase mr-8">Admin Core</h2>
           {['info', 'projects', 'skills', 'experience'].map(tab => (
-            <button key={tab} onClick={() => setActiveTab(tab as any)} className={`text-[10px] font-black uppercase tracking-widest ${activeTab === tab ? 'text-white' : 'text-zinc-600'}`}>{tab}</button>
+            <motion.button whileHover={{ y: -2 }} key={tab} onClick={() => setActiveTab(tab as any)} className={`text-[10px] font-black uppercase tracking-widest cursor-pointer ${activeTab === tab ? 'text-white' : 'text-zinc-600'}`}>{tab}</motion.button>
           ))}
         </div>
         <div className="flex gap-4">
-          <button onClick={handleSave} className="px-6 py-2 bg-white text-black text-[10px] font-black uppercase rounded">Commit</button>
-          <button onClick={onClose} className="px-6 py-2 border border-zinc-800 text-zinc-500 text-[10px] font-black uppercase rounded">Exit</button>
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleSave} className="px-6 py-2 bg-white text-black text-[10px] font-black uppercase rounded cursor-pointer">Commit</motion.button>
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={onClose} className="px-6 py-2 border border-zinc-800 text-zinc-500 text-[10px] font-black uppercase rounded cursor-pointer hover:text-white hover:border-white transition-colors">Exit</motion.button>
         </div>
       </div>
 
@@ -182,7 +196,7 @@ const Admin: React.FC<AdminProps> = ({ onClose }) => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
