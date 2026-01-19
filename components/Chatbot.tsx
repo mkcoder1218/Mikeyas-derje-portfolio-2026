@@ -71,10 +71,10 @@ const Chatbot: React.FC = () => {
   return (
     <div className="fixed bottom-6 right-6 z-[100]">
       <motion.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(59, 130, 246, 0.6)" }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 shadow-xl border ${isOpen ? 'bg-white text-zinc-950 border-white' : 'bg-zinc-900 text-white border-zinc-800 hover:border-zinc-600'}`}
+        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 shadow-xl border cursor-pointer ${isOpen ? 'bg-white text-zinc-950 border-white' : 'bg-zinc-900 text-white border-zinc-800 hover:border-zinc-600'}`}
       >
         <i className={`fas ${isOpen ? 'fa-times' : 'fa-comment-dots'} text-lg`}></i>
       </motion.button>
